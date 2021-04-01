@@ -1,0 +1,15 @@
+{
+	"components": {
+	    "appe-now-experience-dashboard": {
+	        "innerComponents": [],
+			"uiBuilder": {
+				"associatedTypes": ["global.core", "global.landing-page"],
+				"label": "Now Task Dashboard",
+				"icon": "chart-forecast-fill",
+				"description": "A task dashboard component",
+				"category": "primitives"
+			}
+	    }
+	},
+	"scopeName": "x_appe_now_exper_1"
+}
