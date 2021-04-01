@@ -49,5 +49,22 @@ export const actionHandlers = {
         });
 
         updateState({ dataRows })
+    },
+    'NOW_EXPERIENCE_FILTER#CHANGED': (coeffects) => {
+        const { action, dispatch } = coeffects;
+        const { payload } = action;
+
+        const query = `sys_class_nameIN${taskTables.join(',')}^${payload.query}`;
+
+        const fields = columns.map((col) => {
+            return col.field;
+        }).join(',');
+
+        dispatch("FETCH_TASK_DATA", {
+            sysparm_query: query,
+            sysparm_display_value: 'all',
+            sysparm_exclude_reference_link: true,
+            sysparm_fields: fields
+        });
     }
 }

@@ -5,9 +5,10 @@ import styles from './styles.scss';
 
 import { columns } from './defaults.js';
 import '../components/now-experience-table';
+import '../components/now-experience-filter';
 
 createCustomElement('snc-now-experience-dashboard', {
-    view: function(state, helpers) {
+    view: function(state) {
         const { dataRows } = state;
 
         const displayColumns = columns.filter((col) => {
@@ -17,6 +18,7 @@ createCustomElement('snc-now-experience-dashboard', {
         return (
             <div className="container">
                 <div className="table-content">
+                    <now-experience-filter></now-experience-filter>
                     <now-experience-table
                         title="Task table"
                         dataColumns={displayColumns}
