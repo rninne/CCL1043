@@ -3,7 +3,7 @@ import { actionTypes } from '@servicenow/ui-core';
 
 const { COMPONENT_BOOTSTRAPPED } = actionTypes;
 
-import { columns, taskTables } from './defaults.js';
+import { columns, taskTables, tableLabels } from './defaults.js';
 
 export const actionHandlers = {
     [COMPONENT_BOOTSTRAPPED]: (coeffects) => {
@@ -35,8 +35,17 @@ export const actionHandlers = {
     'FETCH_TASK_DATA_SUCCEEDED': (coeffects) => {
         const { action, updateState } = coeffects;
         const { result } = action.payload;
+        const visualizations = {};
 
         const dataRows = result.map((row) => {
+            const tableName = row.sys_class_name.value;
+
+            if (visualizations[tableName]) {
+                visualizations[tableName]++;
+            } else {
+                visualizations[tableName] = 1;
+            }
+
             return Object.keys(row).reduce((acc, val) => {
                 if (val === 'sys_class_name') {
                     acc[val] = row[val].value;
@@ -48,7 +57,16 @@ export const actionHandlers = {
             }, {});
         });
 
-        updateState({ dataRows })
+        updateState({ 
+            dataRows,
+            chartData: Object.keys(visualizations).map((table) => {
+                return {
+                    value: table,
+                    label: tableLabels[table],
+                    count: visualizations[table]
+                }
+            })
+        })
     },
     'NOW_EXPERIENCE_FILTER#CHANGED': (coeffects) => {
         const { action, dispatch } = coeffects;
